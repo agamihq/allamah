@@ -4,7 +4,7 @@ const KEY_DRAFT='eval.draft.v1', KEY_SAVED='eval.saved.v1';
 const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
 
 // العلامة الثابتة للمنصة — تتعدّل هنا مرة واحدة (logo: رابط data: للشعار، أو اتركه فاضي)
-const PLATFORM={name:'منصة علامة',logo:'assets/logo-white.png?v=4'};
+const PLATFORM={name:'منصة علامة',logo:'assets/logo-white.png?v=5'};
 const BAR_COLORS=['#FFB81C','#1FC2B4','#8B6CF6','#FF7A59','#2D7FF0','#E5487F'];
 
 const LEVELS=[
@@ -120,16 +120,22 @@ function plainText(){
 
 /* ----- form binding ----- */
 const MAP={fName:'name',fSubject:'subject',fTeacher:'teacher',fDate:'date',fSupervisor:'supervisor',fLevel:'lvlText',fNote:'note',fRec:'rec'};
+// كل نص في الواجهة بيتغيّر حسب النوع: data-f للمؤنث وdata-m للمذكر
+function applyGenderText(){
+  const k=G()?'m':'f';
+  $$('[data-f][data-m]').forEach(el=>{el.textContent=el.dataset[k]});
+  $$('[data-ph-f][data-ph-m]').forEach(el=>{el.placeholder=el.dataset[k==='m'?'phM':'phF']});
+}
 function fillForm(){
   for(const id in MAP)$('#'+id).value=S[MAP[id]]||'';
   $('#fShowSkills').checked=!!S.showSkills;
   $$('#genderSeg button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.g===S.gender));
-  renderLevels();renderSkills();renderChips();renderSaved();renderReport();
+  applyGenderText();renderLevels();renderSkills();renderChips();renderSaved();renderReport();
 }
 function changed(){store.set(KEY_DRAFT,S);renderReport();}
 for(const id in MAP)$('#'+id).addEventListener('input',e=>{S[MAP[id]]=e.target.value;if(id==='fName')renderChips();changed()});
 $('#fShowSkills').addEventListener('change',e=>{S.showSkills=e.target.checked;changed()});
-$('#genderSeg').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;S.gender=b.dataset.g;$$('#genderSeg button').forEach(x=>x.setAttribute('aria-pressed',x===b));renderLevels();renderChips();changed()});
+$('#genderSeg').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;S.gender=b.dataset.g;$$('#genderSeg button').forEach(x=>x.setAttribute('aria-pressed',x===b));applyGenderText();renderLevels();renderChips();changed()});
 
 function renderLevels(){
   $('#levels').innerHTML=LEVELS.map(l=>`<button type="button" data-l="${l.id}" aria-pressed="${S.level===l.id}">${G()?l.m:l.f}</button>`).join('');
@@ -171,7 +177,7 @@ $('#saved').addEventListener('click',e=>{const it=e.target.closest('.saved-item'
   if(e.target.closest('[data-open]')){S=Object.assign(BLANK(),JSON.parse(JSON.stringify(saved.find(x=>x.id===id))));store.set(KEY_DRAFT,S);fillForm();toast('تم فتح التقييم');closeDrawer();setView('form');return}
   const rm=e.target.closest('[data-rm]');if(rm){if(rm.classList.contains('warn')){saved=saved.filter(x=>x.id!==id);store.set(KEY_SAVED,saved);if(S.id===id){S.id=null;store.set(KEY_DRAFT,S)}renderSaved();toast('تم الحذف')}else{rm.classList.add('warn');rm.textContent='تأكيد الحذف';setTimeout(()=>{if(rm.isConnected){rm.classList.remove('warn');rm.textContent='حذف'}},3000)}}});
 function save(){
-  if(!S.name.trim()){toast('اكتب اسم الطالب/ة أولًا');setView('form');$('#fName').focus();return}
+  if(!S.name.trim()){toast(G()?'اكتب اسم الطالب أولًا':'اكتب اسم الطالبة أولًا');setView('form');$('#fName').focus();return}
   if(!S.id)S.id='e'+Date.now().toString(36);
   const rec=JSON.parse(JSON.stringify(S));rec.savedAt=Date.now();
   const i=saved.findIndex(x=>x.id===S.id);if(i>=0)saved[i]=rec;else saved.push(rec);

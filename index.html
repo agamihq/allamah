@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>علامة | تقييم الطلاب</title>
-<link rel="icon" type="image/png" sizes="32x32" href="assets/icon-32.png?v=4">
-<link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png?v=4">
-<link rel="apple-touch-icon" sizes="180x180" href="assets/icon-180.png?v=4">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icon-32.png?v=5">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png?v=5">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/icon-180.png?v=5">
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="apple-mobile-web-app-title" content="تقييم علامة">
 <meta name="mobile-web-app-capable" content="yes">
@@ -16,13 +16,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@500;600;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="css/style.css?v=4">
+<link rel="stylesheet" href="css/style.css?v=5">
 </head>
 <body>
 
 <header class="top">
   <div>
-    <div class="top-brand"><picture><source srcset="assets/logo-white.png?v=4" media="(prefers-color-scheme: dark)"><img class="top-logo" src="assets/logo.png?v=4" alt="علامة"></picture><span class="top-sep" aria-hidden="true"></span><h1>تقييم الطلاب</h1></div>
+    <div class="top-brand"><picture><source srcset="assets/logo-white.png?v=5" media="(prefers-color-scheme: dark)"><img class="top-logo" src="assets/logo.png?v=5" alt="علامة"></picture><span class="top-sep" aria-hidden="true"></span><h1>تقييم الطلاب</h1></div>
   </div>
   <div class="top-actions">
     <button class="btn" id="btnSaved" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>المحفوظة <span class="count" id="savedCount">0</span></button>
@@ -39,7 +39,7 @@
 <main class="app" id="app" data-view="form">
   <section class="form-col">
     <div class="panel">
-      <h2><span class="step">١</span>بيانات الطالب</h2>
+      <h2><span class="step">١</span><span data-f="بيانات الطالبة" data-m="بيانات الطالب">بيانات الطالبة</span></h2>
       <div class="field"><span class="lbl">النوع</span>
         <div class="seg" id="genderSeg">
           <button type="button" data-g="f" aria-pressed="true">طالبة</button>
@@ -47,13 +47,13 @@
         </div>
       </div>
       <div class="grid2">
-        <div class="field"><label for="fName">اسم الطالب/ة</label><input type="text" id="fName" placeholder="مثال: نوره البخيت"></div>
+        <div class="field"><label for="fName" data-f="اسم الطالبة" data-m="اسم الطالب">اسم الطالبة</label><input type="text" id="fName" placeholder="مثال: نوره البخيت" data-ph-f="مثال: نوره البخيت" data-ph-m="مثال: محمد العتيبي"></div>
         <div class="field"><label for="fSubject">المادة</label>
           <input type="text" id="fSubject" placeholder="مثال: اللغة الإنجليزية">
         </div>
-        <div class="field"><label for="fTeacher">المعلم/ة</label><input type="text" id="fTeacher" placeholder="اختياري"></div>
+        <div class="field"><label for="fTeacher" data-f="المعلمة" data-m="المعلم">المعلمة</label><input type="text" id="fTeacher" placeholder="اختياري"></div>
         <div class="field"><label for="fDate">تاريخ التقييم</label><input type="date" id="fDate"></div>
-        <div class="field"><label for="fSupervisor">المشرف/ة</label><input type="text" id="fSupervisor" placeholder="اختياري"></div>
+        <div class="field"><label for="fSupervisor" data-f="المشرفة" data-m="المشرف">المشرفة</label><input type="text" id="fSupervisor" placeholder="اختياري"></div>
       </div>
     </div>
 
@@ -69,13 +69,13 @@
 
     <div class="panel">
       <h2><span class="step">٣</span>نص التقييم</h2>
-      <div class="field"><label for="fLevel">مستوى الطالب/ة</label><textarea id="fLevel"></textarea>
+      <div class="field"><label for="fLevel" data-f="مستوى الطالبة" data-m="مستوى الطالب">مستوى الطالبة</label><textarea id="fLevel"></textarea>
         <div class="chips" data-for="fLevel"></div></div>
       <div class="field"><label for="fNote">ملاحظة الإشراف</label><textarea id="fNote"></textarea>
         <div class="chips" data-for="fNote"></div></div>
       <div class="field"><label for="fRec">توصية المنصة</label><textarea id="fRec"></textarea>
         <div class="chips" data-for="fRec"></div></div>
-      <p class="hint">اضغط على أي جملة جاهزة لإضافتها، وبتتكتب باسم الطالب/ة وبالصيغة المناسبة تلقائيًا. تقدر تعدّل النص بحرّية بعدها.</p>
+      <p class="hint">اضغط على أي جملة جاهزة لإضافتها، <span data-f="وبتتكتب باسم الطالبة وبصيغة المؤنث تلقائيًا." data-m="وبتتكتب باسم الطالب وبصيغة المذكر تلقائيًا.">وبتتكتب باسم الطالبة وبصيغة المؤنث تلقائيًا.</span> تقدر تعدّل النص بحرّية بعدها.</p>
     </div>
 
   </section>
@@ -126,7 +126,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="js/app.js?v=4"></script>
+<script src="js/app.js?v=5"></script>
 
 </body>
 </html>
