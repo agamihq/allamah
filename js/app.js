@@ -4,7 +4,7 @@ const KEY_DRAFT='eval.draft.v1', KEY_SAVED='eval.saved.v1';
 const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
 
 // العلامة الثابتة للمنصة — تتعدّل هنا مرة واحدة (logo: رابط data: للشعار، أو اتركه فاضي)
-const PLATFORM={name:'منصة علامة',logo:'assets/logo-white.png'};
+const PLATFORM={name:'منصة علامة',logo:'assets/logo-white.png?v=3'};
 const BAR_COLORS=['#FFB81C','#1FC2B4','#8B6CF6','#FF7A59','#2D7FF0','#E5487F'];
 
 const LEVELS=[
