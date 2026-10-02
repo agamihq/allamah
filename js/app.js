@@ -4,7 +4,7 @@ const KEY_DRAFT='eval.draft.v1', KEY_SAVED='eval.saved.v1';
 const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
 
 // العلامة الثابتة للمنصة — تتعدّل هنا مرة واحدة (logo: رابط data: للشعار، أو اتركه فاضي)
-const PLATFORM={name:'منصة علامة',logo:'assets/logo-white.png?v=5'};
+const PLATFORM={name:'منصة علامة',logo:'assets/logo-white.png?v=6'};
 const BAR_COLORS=['#FFB81C','#1FC2B4','#8B6CF6','#FF7A59','#2D7FF0','#E5487F'];
 
 const LEVELS=[
@@ -17,7 +17,7 @@ const LEVELS=[
 // [feminine, masculine]; {n}=name
 const PHRASES={
   fLevel:[
-    ['تُظهر {n} تقدمًا ملحوظًا في مستواها، ويعكس أداؤها أثر المتابعة والجهد المبذول معها من قِبل المعلمة.','يُظهر {n} تقدمًا ملحوظًا في مستواه، ويعكس أداؤه أثر المتابعة والجهد المبذول معه من قِبل المعلم.'],
+    ['تُظهر {n} تقدمًا ملحوظًا في مستواها، ويعكس أداؤها أثر المتابعة والجهد المبذول معها من قِبل {t}.','يُظهر {n} تقدمًا ملحوظًا في مستواه، ويعكس أداؤه أثر المتابعة والجهد المبذول معه من قِبل {t}.'],
     ['كما تشهد مهارات القراءة وفهم المقروء لديها تطورًا واضحًا مع استمرار التدريب.','كما تشهد مهارات القراءة وفهم المقروء لديه تطورًا واضحًا مع استمرار التدريب.'],
     ['مستوى {n} ممتاز ومستقر، وتؤدي المهام المطلوبة بثقة واستقلالية.','مستوى {n} ممتاز ومستقر، ويؤدي المهام المطلوبة بثقة واستقلالية.'],
     ['تحتاج {n} إلى مزيد من التدريب على المفردات الأساسية لتثبيت ما تعلمته.','يحتاج {n} إلى مزيد من التدريب على المفردات الأساسية لتثبيت ما تعلمه.'],
@@ -25,7 +25,7 @@ const PHRASES={
   ],
   fNote:[
     ['أظهرت الطالبة تطورًا ملحوظًا خلال الحصص الأخيرة، خاصة في مهارات القراءة وفهم معاني الكلمات.','أظهر الطالب تطورًا ملحوظًا خلال الحصص الأخيرة، خاصة في مهارات القراءة وفهم معاني الكلمات.'],
-    ['كما تتميز بتفاعل ممتاز وقدرة جيدة على فهم توجيهات المعلمة والتواصل معها أثناء الحصة.','كما يتميز بتفاعل ممتاز وقدرة جيدة على فهم توجيهات المعلم والتواصل معه أثناء الحصة.'],
+    ['كما تتميز بتفاعل ممتاز وقدرة جيدة على فهم توجيهات {t} والتواصل {tw} أثناء الحصة.','كما يتميز بتفاعل ممتاز وقدرة جيدة على فهم توجيهات {t} والتواصل {tw} أثناء الحصة.'],
     ['تلتزم بالحضور في المواعيد وتؤدي الواجبات بانتظام.','يلتزم بالحضور في المواعيد ويؤدي الواجبات بانتظام.'],
     ['تحتاج إلى تشجيع إضافي على المشاركة الشفهية لبناء ثقتها.','يحتاج إلى تشجيع إضافي على المشاركة الشفهية لبناء ثقته.'],
     ['لوحظ تأخر في تسليم بعض الواجبات، ونأمل متابعة الأسرة لذلك.','لوحظ تأخر في تسليم بعض الواجبات، ونأمل متابعة الأسرة لذلك.']
@@ -40,12 +40,12 @@ const PHRASES={
 const CHIP_LABEL={fLevel:['تقدم ملحوظ','تطور القراءة','مستوى ممتاز','يحتاج مفردات','تحسن النطق'],fNote:['تطور في الحصص الأخيرة','تفاعل ممتاز','التزام بالحضور','تشجيع على المشاركة','تأخر الواجبات'],fRec:['مواصلة الحصص','قراءة يومية','زيادة الحصص','محادثة يومية']};
 
 const today=()=>new Date().toISOString().slice(0,10);
-const SAMPLE={id:null,gender:'f',name:'نوره البخيت',subject:'اللغة الإنجليزية',teacher:'',date:today(),supervisor:'',level:'vgood',showSkills:true,
+const SAMPLE={id:null,gender:'f',name:'نوره البخيت',subject:'اللغة الإنجليزية',teacher:'',tGender:'f',date:today(),supervisor:'',level:'vgood',showSkills:true,
   skills:[{n:'القراءة',v:4},{n:'فهم المقروء',v:4},{n:'المفردات',v:3},{n:'التفاعل في الحصة',v:5}],
   lvlText:'تُظهر نوره تقدمًا ملحوظًا في مستواها، ويعكس أداؤها أثر المتابعة والجهد المبذول معها من قِبل المعلمة.\nكما تشهد مهارات القراءة وفهم المقروء لديها تطورًا واضحًا مع استمرار التدريب.',
   note:'أظهرت الطالبة تطورًا ملحوظًا خلال الحصص الأخيرة، خاصة في مهارات القراءة وفهم معاني الكلمات.\nكما تتميز بتفاعل ممتاز وقدرة جيدة على فهم توجيهات المعلمة والتواصل معها أثناء الحصة.',
   rec:'نوصي بمواصلة الحصص بشكل منتظم والاستمرار في تدريبات Reading والمفردات وفهم المقروء للحفاظ على مستوى نوره ودعم تقدمها بصورة مستمرة.'};
-const BLANK=()=>({id:null,gender:'f',name:'',subject:'',teacher:'',date:today(),supervisor:'',level:'',showSkills:true,
+const BLANK=()=>({id:null,gender:'f',name:'',subject:'',teacher:'',tGender:'f',date:today(),supervisor:'',level:'',showSkills:true,
   skills:[{n:'القراءة',v:0},{n:'فهم المقروء',v:0},{n:'المفردات',v:0},{n:'التفاعل في الحصة',v:0}],lvlText:'',note:'',rec:''});
 
 let S=Object.assign(BLANK(),store.get(KEY_DRAFT,SAMPLE));
@@ -53,6 +53,9 @@ let saved=store.get(KEY_SAVED,[]);
 
 const esc=t=>String(t??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const G=()=>S.gender==='m';
+// نوع المعلم مستقل عن نوع الطالب (فيه معلم ومعلمة)؛ الإشراف كله مشرفات
+const TM=()=>(S.tGender||'f')==='m';
+const teacherWord=()=>TM()?'المعلم':'المعلمة';
 const studentWord=()=>G()?'الطالب':'الطالبة';
 const firstName=()=>(S.name.trim().split(/\s+/)[0]||studentWord());
 const fmtDate=d=>{if(!d)return'';try{return new Date(d+'T00:00:00').toLocaleDateString('ar-SA-u-ca-gregory-nu-arab',{day:'numeric',month:'long',year:'numeric'})}catch(e){return d}};
@@ -84,7 +87,7 @@ function renderReport(){
     </header>
     <div class="r-meta">
       <div><span>📖 المادة</span><b>${esc(S.subject.trim()||'—')}</b></div>
-      ${S.teacher.trim()?`<div><span>${G()?'👨‍🏫 المعلم':'👩‍🏫 المعلمة'}</span><b>${esc(S.teacher.trim())}</b></div>`:''}
+      ${S.teacher.trim()?`<div><span>${TM()?'👨‍🏫 المعلم':'👩‍🏫 المعلمة'}</span><b>${esc(S.teacher.trim())}</b></div>`:''}
     </div>
     <div class="r-body">
       ${lv?`<div class="r-overall"><span class="lbl">🏅 التقدير العام</span><span style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end"><span class="r-stars">${'⭐'.repeat(lv.stars)}</span><span class="r-badge" style="background:${lv.c}">${esc(levelLabel())}</span></span></div>`:''}
@@ -94,7 +97,7 @@ function renderReport(){
       ${sec('s-rec','🚀',brand?'توصية '+brand:'توصية المنصة',S.rec,'اكتب التوصية…')}
     </div>
     <footer class="r-foot">
-      <span>${S.supervisor.trim()?`الإشراف: <b>${esc(S.supervisor)}</b>`:'إعداد: فريق الإشراف التعليمي'}</span>
+      <span>${S.supervisor.trim()?`المشرفة: <b>${esc(S.supervisor)}</b>`:'إعداد: فريق الإشراف التعليمي'}</span>
       <span class="r-cheer">${G()?'استمر يا بطل 💪':'استمري يا بطلة 💪'}</span>
     </footer>`;
   const t=encodeURIComponent(plainText());
@@ -108,7 +111,7 @@ function plainText(){
   out.push('');
   out.push(`${G()?'👦':'👧'} ${sw}: ${S.name.trim()}`);
   if(S.subject.trim())out.push(`📖 المادة: ${S.subject.trim()}`);
-  if(S.teacher.trim())out.push(`👩‍🏫 ${G()?'المعلم':'المعلمة'}: ${S.teacher.trim()}`);
+  if(S.teacher.trim())out.push(`${TM()?'👨‍🏫':'👩‍🏫'} ${teacherWord()}: ${S.teacher.trim()}`);
   if(levelLabel())out.push(`🏅 التقدير العام: ${levelLabel()}`);
   const sk=S.showSkills?S.skills.filter(s=>s.n.trim()&&s.v>0):[];
   if(sk.length){out.push('');out.push('📊 المهارات:');sk.forEach(s=>out.push(`• ${s.n}: ${'★'.repeat(s.v)}${'☆'.repeat(5-s.v)}`))}
@@ -130,11 +133,13 @@ function fillForm(){
   for(const id in MAP)$('#'+id).value=S[MAP[id]]||'';
   $('#fShowSkills').checked=!!S.showSkills;
   $$('#genderSeg button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.g===S.gender));
+  $$('#tGenderSeg button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.t===(S.tGender||'f')));
   applyGenderText();renderLevels();renderSkills();renderChips();renderSaved();renderReport();
 }
 function changed(){store.set(KEY_DRAFT,S);renderReport();}
 for(const id in MAP)$('#'+id).addEventListener('input',e=>{S[MAP[id]]=e.target.value;if(id==='fName')renderChips();changed()});
 $('#fShowSkills').addEventListener('change',e=>{S.showSkills=e.target.checked;changed()});
+$('#tGenderSeg').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;S.tGender=b.dataset.t;$$('#tGenderSeg button').forEach(x=>x.setAttribute('aria-pressed',x===b));renderChips();changed()});
 $('#genderSeg').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;S.gender=b.dataset.g;$$('#genderSeg button').forEach(x=>x.setAttribute('aria-pressed',x===b));applyGenderText();renderLevels();renderChips();changed()});
 
 function renderLevels(){
@@ -155,7 +160,7 @@ $('#skills').addEventListener('click',e=>{const r=e.target.closest('.skill-row')
   if(e.target.closest('[data-del]')){S.skills.splice(i,1);renderSkills();changed()}});
 $('#addSkill').addEventListener('click',()=>{S.skills.push({n:'',v:0});renderSkills();const inp=$('#skill-'+(S.skills.length-1));inp&&inp.focus()});
 
-function phrase(id,i){const p=PHRASES[id][i][G()?1:0];return p.replace(/\{n\}/g,firstName())}
+function phrase(id,i){const p=PHRASES[id][i][G()?1:0];return p.replace(/\{n\}/g,firstName()).replace(/\{tw\}/g,TM()?'معه':'معها').replace(/\{t\}/g,teacherWord())}
 function renderChips(){
   $$('.chips').forEach(box=>{const id=box.dataset.for;box.innerHTML=PHRASES[id].map((_,i)=>`<button type="button" data-i="${i}" title="${esc(phrase(id,i))}">${CHIP_LABEL[id][i]}</button>`).join('')});
 }
