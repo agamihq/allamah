@@ -1,11 +1,11 @@
-// خادم ثابت بسيط بلا اعتماديات: يخدم public/index.html فقط
+// خادم ثابت بسيط بلا اعتماديات: يخدم index.html فقط
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const zlib = require('zlib');
 
 const PORT = process.env.PORT || 3000;
-const html = fs.readFileSync(path.join(__dirname, 'public', 'index.html'));
+const html = fs.readFileSync(path.join(__dirname, 'index.html'));
 const gz = zlib.gzipSync(html);
 
 http.createServer((req, res) => {
