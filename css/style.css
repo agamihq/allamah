@@ -109,9 +109,9 @@ textarea{resize:vertical;min-height:96px;line-height:1.8}
 .r-dot{position:absolute;border-radius:50%;pointer-events:none}
 .r-brandline{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:.82rem;position:relative;z-index:1}
 .r-brand{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.22);border-radius:999px;padding:4px 12px 4px 6px;font-weight:600}
-.r-logo-wrap{display:inline-flex;border-radius:12px;overflow:hidden;box-shadow:0 4px 12px -4px rgba(0,0,0,.25)}
-.r-logo{height:44px;width:auto;display:block}
-.top-logo{height:44px;width:auto;display:block;border-radius:10px}
+.r-logo-wrap{display:inline-flex}
+.r-logo{height:40px;width:auto;display:block}
+.top-logo{height:42px;width:auto;display:block}
 .top-brand{display:flex;align-items:center;gap:12px}
 .r-brand .r-mono{width:26px;height:26px;border-radius:50%;background:#FFFFFF;color:var(--r-brand);display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:.9rem}
 .r-who{display:flex;align-items:center;gap:14px;margin-top:16px;position:relative;z-index:1}
