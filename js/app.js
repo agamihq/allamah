@@ -4,7 +4,7 @@ const KEY_DRAFT='eval.draft.v1', KEY_SAVED='eval.saved.v1';
 const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
 
 // العلامة الثابتة للمنصة — تتعدّل هنا مرة واحدة (logo: رابط data: للشعار، أو اتركه فاضي)
-const PLATFORM={name:'منصة علامة',logo:'assets/logo-white.png?v=6'};
+const PLATFORM={name:'منصة علامة',logo:'assets/logo-white.png?v=7'};
 const BAR_COLORS=['#FFB81C','#1FC2B4','#8B6CF6','#FF7A59','#2D7FF0','#E5487F'];
 
 const LEVELS=[
@@ -40,12 +40,12 @@ const PHRASES={
 const CHIP_LABEL={fLevel:['تقدم ملحوظ','تطور القراءة','مستوى ممتاز','يحتاج مفردات','تحسن النطق'],fNote:['تطور في الحصص الأخيرة','تفاعل ممتاز','التزام بالحضور','تشجيع على المشاركة','تأخر الواجبات'],fRec:['مواصلة الحصص','قراءة يومية','زيادة الحصص','محادثة يومية']};
 
 const today=()=>new Date().toISOString().slice(0,10);
-const SAMPLE={id:null,gender:'f',name:'نوره البخيت',subject:'اللغة الإنجليزية',teacher:'',tGender:'f',date:today(),supervisor:'',level:'vgood',showSkills:true,
+const SAMPLE={id:null,gender:'f',name:'نوره البخيت',subject:'اللغة الإنجليزية',teacher:'',tGender:'f',sGender:'f',date:today(),supervisor:'',level:'vgood',showSkills:true,
   skills:[{n:'القراءة',v:4},{n:'فهم المقروء',v:4},{n:'المفردات',v:3},{n:'التفاعل في الحصة',v:5}],
   lvlText:'تُظهر نوره تقدمًا ملحوظًا في مستواها، ويعكس أداؤها أثر المتابعة والجهد المبذول معها من قِبل المعلمة.\nكما تشهد مهارات القراءة وفهم المقروء لديها تطورًا واضحًا مع استمرار التدريب.',
   note:'أظهرت الطالبة تطورًا ملحوظًا خلال الحصص الأخيرة، خاصة في مهارات القراءة وفهم معاني الكلمات.\nكما تتميز بتفاعل ممتاز وقدرة جيدة على فهم توجيهات المعلمة والتواصل معها أثناء الحصة.',
   rec:'نوصي بمواصلة الحصص بشكل منتظم والاستمرار في تدريبات Reading والمفردات وفهم المقروء للحفاظ على مستوى نوره ودعم تقدمها بصورة مستمرة.'};
-const BLANK=()=>({id:null,gender:'f',name:'',subject:'',teacher:'',tGender:'f',date:today(),supervisor:'',level:'',showSkills:true,
+const BLANK=()=>({id:null,gender:'f',name:'',subject:'',teacher:'',tGender:'f',sGender:'f',date:today(),supervisor:'',level:'',showSkills:true,
   skills:[{n:'القراءة',v:0},{n:'فهم المقروء',v:0},{n:'المفردات',v:0},{n:'التفاعل في الحصة',v:0}],lvlText:'',note:'',rec:''});
 
 let S=Object.assign(BLANK(),store.get(KEY_DRAFT,SAMPLE));
@@ -53,8 +53,10 @@ let saved=store.get(KEY_SAVED,[]);
 
 const esc=t=>String(t??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const G=()=>S.gender==='m';
-// نوع المعلم مستقل عن نوع الطالب (فيه معلم ومعلمة)؛ الإشراف كله مشرفات
+// نوع المعلم ونوع المشرف مستقلين عن نوع الطالب (الافتراضي مؤنث)
 const TM=()=>(S.tGender||'f')==='m';
+const SM=()=>(S.sGender||'f')==='m';
+const supervisorWord=()=>SM()?'المشرف':'المشرفة';
 const teacherWord=()=>TM()?'المعلم':'المعلمة';
 const studentWord=()=>G()?'الطالب':'الطالبة';
 const firstName=()=>(S.name.trim().split(/\s+/)[0]||studentWord());
@@ -97,7 +99,7 @@ function renderReport(){
       ${sec('s-rec','🚀',brand?'توصية '+brand:'توصية المنصة',S.rec,'اكتب التوصية…')}
     </div>
     <footer class="r-foot">
-      <span>${S.supervisor.trim()?`المشرفة: <b>${esc(S.supervisor)}</b>`:'إعداد: فريق الإشراف التعليمي'}</span>
+      <span>${S.supervisor.trim()?`${supervisorWord()}: <b>${esc(S.supervisor)}</b>`:'إعداد: فريق الإشراف التعليمي'}</span>
       <span class="r-cheer">${G()?'استمر يا بطل 💪':'استمري يا بطلة 💪'}</span>
     </footer>`;
   const t=encodeURIComponent(plainText());
@@ -112,6 +114,7 @@ function plainText(){
   out.push(`${G()?'👦':'👧'} ${sw}: ${S.name.trim()}`);
   if(S.subject.trim())out.push(`📖 المادة: ${S.subject.trim()}`);
   if(S.teacher.trim())out.push(`${TM()?'👨‍🏫':'👩‍🏫'} ${teacherWord()}: ${S.teacher.trim()}`);
+  if(S.supervisor.trim())out.push(`🧑‍💼 ${supervisorWord()}: ${S.supervisor.trim()}`);
   if(levelLabel())out.push(`🏅 التقدير العام: ${levelLabel()}`);
   const sk=S.showSkills?S.skills.filter(s=>s.n.trim()&&s.v>0):[];
   if(sk.length){out.push('');out.push('📊 المهارات:');sk.forEach(s=>out.push(`• ${s.n}: ${'★'.repeat(s.v)}${'☆'.repeat(5-s.v)}`))}
@@ -134,12 +137,14 @@ function fillForm(){
   $('#fShowSkills').checked=!!S.showSkills;
   $$('#genderSeg button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.g===S.gender));
   $$('#tGenderSeg button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.t===(S.tGender||'f')));
+  $$('#sGenderSeg button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.s===(S.sGender||'f')));
   applyGenderText();renderLevels();renderSkills();renderChips();renderSaved();renderReport();
 }
 function changed(){store.set(KEY_DRAFT,S);renderReport();}
 for(const id in MAP)$('#'+id).addEventListener('input',e=>{S[MAP[id]]=e.target.value;if(id==='fName')renderChips();changed()});
 $('#fShowSkills').addEventListener('change',e=>{S.showSkills=e.target.checked;changed()});
 $('#tGenderSeg').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;S.tGender=b.dataset.t;$$('#tGenderSeg button').forEach(x=>x.setAttribute('aria-pressed',x===b));renderChips();changed()});
+$('#sGenderSeg').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;S.sGender=b.dataset.s;$$('#sGenderSeg button').forEach(x=>x.setAttribute('aria-pressed',x===b));changed()});
 $('#genderSeg').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;S.gender=b.dataset.g;$$('#genderSeg button').forEach(x=>x.setAttribute('aria-pressed',x===b));applyGenderText();renderLevels();renderChips();changed()});
 
 function renderLevels(){
